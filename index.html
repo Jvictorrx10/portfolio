@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portfólio de João Victor. Edição de vídeo, conteúdo comercial, entrevistas e narrativas pessoais.">
+  <meta name="theme-color" content="#151614">
+  <title>João Victor — Editor de vídeo</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="projects.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#trabalhos">Ir para os trabalhos</a>
+  <header class="header wrap">
+    <a class="identity" href="#inicio" aria-label="João Victor, início"><span class="monogram">JV<span>●</span></span><span>JOÃO VICTOR</span></a>
+    <nav aria-label="Navegação principal"><a href="#trabalhos">Trabalhos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a></nav>
+  </header>
+  <main>
+    <section id="inicio" class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span> PORTFÓLIO / EDIÇÃO DE VÍDEO</p>
+        <h1>João Victor<span class="hero-profession">Editor de <em>vídeo.</em></span></h1>
+        <p class="intro">Transformo imagens e ideias em histórias para redes sociais. Tenho experiência em edição, captação e produção de conteúdo comercial e de campanha.</p>
+        <div class="hero-actions"><a class="text-link" href="#trabalhos">Explorar os trabalhos <span aria-hidden="true">↘</span></a><a class="hero-contact" href="#contato">Entrar em contato ↗</a></div>
+        <div class="hero-caption"><span>CAPTAÇÃO</span><span>EDIÇÃO</span><span>NARRATIVA</span></div>
+      </div>
+      <button class="hero-film" data-project="hb" aria-label="Assistir ao projeto Churrasqueiras HB">
+        <img src="assets/hb.jpg" alt="Churrasqueira de tijolos, resultado do serviço apresentado no projeto" width="540" height="960" fetchpriority="high">
+        <video class="preview-video" data-preview="assets/hb-preview.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+        <span class="film-top">CAPTAÇÃO E EDIÇÃO <span>00:42</span></span>
+        <span class="play-icon" aria-hidden="true">▶</span>
+        <span class="film-bottom"><span>Do processo ao resultado<small>Churrasqueiras HB · produção em equipe</small></span><span aria-hidden="true">↗</span></span>
+      </button>
+    </section>
+    <section id="trabalhos" class="work wrap">
+      <div class="section-heading"><div><p class="eyebrow">01 / SELEÇÃO</p><h2>Trabalhos selecionados<span>.</span></h2></div><p>Sete projetos.<br>Diferentes formas de contar.</p></div>
+      <div class="filters" role="group" aria-label="Filtrar trabalhos"><button class="active" data-filter="all" aria-pressed="true">Todos <span>07</span></button><button data-filter="comercial" aria-pressed="false">Comercial</button><button data-filter="educacional" aria-pressed="false">Educacional</button><button data-filter="entrevistas" aria-pressed="false">Entrevistas</button><button data-filter="narrativas" aria-pressed="false">Narrativas e depoimentos</button></div>
+      <div id="projects" class="project-grid"></div>
+      <noscript><p>Ative o JavaScript para abrir as fichas. Você também pode assistir diretamente: <a href="assets/hb.mp4">Churrasqueiras HB</a>, <a href="assets/apdc.mp4">APDC</a>, <a href="assets/rubens.mp4">Rubens</a>, <a href="assets/yan.mp4">Yan</a>, <a href="assets/alessandra.mp4">Alessandra</a>, <a href="assets/gustavo.mp4">Gustavo</a> e <a href="assets/ana.mp4">Ana Lúcia</a>.</p></noscript>
+    </section>
+    <section id="sobre" class="about wrap">
+      <div><p class="eyebrow">02 / SOBRE</p><h2>Prazer,<br>João Victor<span>.</span></h2></div>
+      <div class="about-copy"><p class="lead">Da filmagem à montagem, meu olhar está na história que o vídeo precisa contar.</p><p>Trabalhei como editor na campanha do partido Missão, produzindo conteúdo para diferentes candidatos. Essa experiência incluiu entrevistas, vídeos de propostas, bastidores e relatos pessoais, com linguagens próprias para cada projeto.</p><p>Nos projetos comerciais, também participei da captação. Na Churrasqueiras HB, minha equipe e eu desenvolvemos a produção com roteiro, filmagem, edição e voz do cliente. Também filmei e editei uma visita dos alunos da APDC a uma empresa de produção de cal. Gosto de conhecer o contexto do trabalho para decidir como apresentá-lo em vídeo.</p><div class="skills"><span>Edição para redes sociais</span><span>Imagens de apoio</span><span>Legendas e composição</span><span>Captação de vídeo</span><span>CapCut</span></div></div>
+    </section>
+    <section id="contato" class="contact wrap"><p class="eyebrow">03 / CONTATO</p><div class="contact-row"><div><h2>Contato profissional<span>.</span></h2><p class="availability">Para conversar sobre projetos de edição ou oportunidades profissionais.</p></div><div id="contact-links"><a class="contact-link" href="mailto:batista.assis.dwv@gmail.com">batista.assis.dwv@gmail.com ↗</a><a class="contact-link whatsapp-button" href="https://wa.me/5541999731457" target="_blank" rel="noopener noreferrer">Conversar no WhatsApp ↗</a></div></div></section>
+  </main>
+  <footer class="wrap footer"><span>JOÃO VICTOR / PORTFÓLIO</span><span>Edição de vídeo & conteúdo digital</span><a href="#inicio">Voltar ao início ↑</a></footer>
+  <dialog id="project-dialog" aria-labelledby="dialog-title"><button class="close" aria-label="Fechar projeto">✕</button><div class="dialog-layout"><div class="video-panel"><video id="project-video" controls playsinline preload="none"></video></div><div class="project-detail"><p id="dialog-category" class="eyebrow"></p><h2 id="dialog-title"></h2><p id="dialog-description"></p><dl><dt>Participação</dt><dd id="dialog-role"></dd><dt>Formato</dt><dd id="dialog-format"></dd></dl><div id="dialog-context"></div><div class="project-contact"><a id="dialog-contact" class="contact-link" href="https://wa.me/5541999731457" target="_blank" rel="noopener noreferrer">Conversar sobre um projeto ↗</a></div><p class="watch-note">Vídeo completo · áudio disponível nos controles</p></div></div></dialog>
+</body>
+</html>
