@@ -45,20 +45,22 @@ function playPreview(v) {
   v.play().then(() => { if (!v.paused) v.classList.add('playing'); }).catch(() => v.classList.remove('playing'));
 }
 function pausePreview(v) { v.pause(); v.classList.remove('playing'); }
+// Descarrega a prévia que saiu de cena: vídeos parados continuavam ocupando memória e o Chrome fechava a aba.
+function releasePreview(v) { pausePreview(v); if (v.getAttribute('src')) { v.removeAttribute('src'); v.load(); } }
 // Com mouse, a prévia toca só no card sob o cursor: vários vídeos ao mesmo tempo travavam a rolagem no PC.
 const hoverPreviews = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const previewObserver = !hoverPreviews && 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
   entries.forEach(({target, isIntersecting}) => {
     if (isIntersecting) { visiblePreviews.add(target); playPreview(target); }
-    else { visiblePreviews.delete(target); pausePreview(target); }
+    else { visiblePreviews.delete(target); releasePreview(target); }
   });
 }, {threshold: 0.2}) : null;
 function observePreviews() {
   document.querySelectorAll('.preview-video').forEach(v => {
     if (hoverPreviews) {
       const cover = v.closest('.project-cover');
-      const start = () => { visiblePreviews.forEach(pausePreview); visiblePreviews.clear(); visiblePreviews.add(v); playPreview(v); };
-      const stop = () => { visiblePreviews.delete(v); pausePreview(v); };
+      const start = () => { visiblePreviews.forEach(releasePreview); visiblePreviews.clear(); visiblePreviews.add(v); playPreview(v); };
+      const stop = () => { visiblePreviews.delete(v); releasePreview(v); };
       cover.addEventListener('pointerenter', start); cover.addEventListener('focus', start);
       cover.addEventListener('pointerleave', stop); cover.addEventListener('blur', stop);
     }
@@ -78,7 +80,7 @@ function observeReveals() {
 }
 function render(filter = 'all') {
   currentFilter = filter;
-  grid.querySelectorAll('.preview-video').forEach(v => {pausePreview(v); visiblePreviews.delete(v); previewObserver?.unobserve(v);});
+  grid.querySelectorAll('.preview-video').forEach(v => {releasePreview(v); visiblePreviews.delete(v); previewObserver?.unobserve(v);});
   grid.querySelectorAll('.project-card').forEach(el => revealObserver?.unobserve(el));
   grid.replaceChildren();
   PROJECTS.filter(p => filter === 'all' || p.groups.includes(filter)).forEach((p, index) => {
@@ -108,12 +110,18 @@ function warmVideo(id) {
   if (video.getAttribute('src') === src) return;
   video.preload = 'auto'; video.poster = `assets/${id}.jpg`; video.src = src;
 }
-let warmTimer;
+// Se o mouse sai sem clicar, o vídeo é descarregado para não acumular memória.
+function coolVideo() { if (!dialog.open && video.getAttribute('src')) { video.removeAttribute('src'); video.load(); } }
+let warmTimer, coolTimer;
 document.addEventListener('pointerover', e => {
   if (e.pointerType !== 'mouse') return;
   const trigger = e.target.closest('[data-project]');
   clearTimeout(warmTimer);
-  if (trigger) warmTimer = setTimeout(() => warmVideo(trigger.dataset.project), 120);
+  if (trigger) { clearTimeout(coolTimer); warmTimer = setTimeout(() => warmVideo(trigger.dataset.project), 250); }
+});
+document.addEventListener('pointerout', e => {
+  if (e.pointerType !== 'mouse' || !e.target.closest('[data-project]') || e.relatedTarget?.closest?.('[data-project]')) return;
+  clearTimeout(warmTimer); clearTimeout(coolTimer); coolTimer = setTimeout(coolVideo, 1500);
 });
 document.addEventListener('focusin', e => { const trigger = e.target.closest('[data-project]'); if (trigger) warmVideo(trigger.dataset.project); });
 
@@ -129,7 +137,7 @@ function fillProject(p) {
 }
 function openProject(id, trigger) {
   const p = PROJECTS.find(p => p.id === id); if (!p) return;
-  lastTrigger = trigger; currentProject = p;
+  lastTrigger = trigger; currentProject = p; clearTimeout(coolTimer);
   fillProject(p);
   const src = `assets/${p.id}.mp4`;
   // Se o vídeo já começou a carregar no passar do mouse, aproveita o que já veio.
