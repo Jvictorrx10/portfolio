@@ -47,7 +47,7 @@ function playPreview(v) {
 function pausePreview(v) { v.pause(); v.classList.remove('playing'); }
 // Descarrega a prévia que saiu de cena: vídeos parados continuavam ocupando memória e o Chrome fechava a aba.
 function releasePreview(v) { pausePreview(v); if (v.getAttribute('src')) { v.removeAttribute('src'); v.load(); } }
-// Com mouse, a prévia toca só no card sob o cursor: vários vídeos ao mesmo tempo travavam a rolagem no PC.
+// Com mouse (PC) as prévias ficam desligadas; no celular tocam só os cards visíveis.
 const hoverPreviews = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 const previewObserver = !hoverPreviews && 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
   entries.forEach(({target, isIntersecting}) => {
@@ -57,14 +57,9 @@ const previewObserver = !hoverPreviews && 'IntersectionObserver' in window ? new
 }, {threshold: 0.2}) : null;
 function observePreviews() {
   document.querySelectorAll('.preview-video').forEach(v => {
-    if (hoverPreviews) {
-      const cover = v.closest('.project-cover');
-      const start = () => { visiblePreviews.forEach(releasePreview); visiblePreviews.clear(); visiblePreviews.add(v); playPreview(v); };
-      const stop = () => { visiblePreviews.delete(v); releasePreview(v); };
-      cover.addEventListener('pointerenter', start); cover.addEventListener('focus', start);
-      cover.addEventListener('pointerleave', stop); cover.addEventListener('blur', stop);
-    }
-    else if(previewObserver) previewObserver.observe(v);
+    // No PC (modo leve) as prévias não tocam: a capa só aproxima ao passar o mouse.
+    if (hoverPreviews) return;
+    if(previewObserver) previewObserver.observe(v);
     else if(v.closest('.hero-film')) {visiblePreviews.add(v); playPreview(v);}
   });
 }

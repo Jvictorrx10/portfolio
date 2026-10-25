@@ -51,6 +51,15 @@ body.modal-open .film-strip,.hero-wall.motion-paused .film-strip,.hero-wall.scro
 /* Desempenho: sem filtro e sem desfoque sobre as esteiras em movimento; a opacidade fica no grupo. */
 .hero-wall img,.hero-wall .film-strip img{filter:none;opacity:1}.hero-wall .film-strip{opacity:.7}
 .secondary-button{backdrop-filter:none;-webkit-backdrop-filter:none;background:#2a2b26cc}
+/* Modo leve no PC (mouse): sem prévias em vídeo, sem rotação nas esteiras e sem desfoque. */
+dialog::backdrop{backdrop-filter:none;-webkit-backdrop-filter:none;background:#000000e6}
+@media (hover:hover) and (pointer:fine){
+  .hero-wall{transform:none;inset:-40px 0}
+  .film-strip{will-change:auto}
+  .preview-video{display:none}
+  .project-cover img{transition:transform .5s ease}
+  .project-cover:hover img,.project-cover:focus-visible img{transform:scale(1.06)}
+}
 /* Seletor de idioma PT/EN. */
 .lang-toggle{background:none;border:1px solid #ffffff55;border-radius:5px;padding:9px 12px;font-size:12px;font-weight:700;letter-spacing:1px;color:#eee}
 .lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
