@@ -47,7 +47,14 @@
 .film-strip-group{display:flex;gap:16px;padding-right:16px;flex-shrink:0}
 .hero-wall .film-strip img{width:clamp(190px,19vw,310px);height:400px;flex-shrink:0;object-fit:cover;border-radius:9px}
 @keyframes film-conveyor{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-body.modal-open .film-strip,.hero-wall.motion-paused .film-strip{animation-play-state:paused}
+body.modal-open .film-strip,.hero-wall.motion-paused .film-strip,.hero-wall.scrolling .film-strip{animation-play-state:paused}
+/* Desempenho: sem filtro e sem desfoque sobre as esteiras em movimento; a opacidade fica no grupo. */
+.hero-wall img,.hero-wall .film-strip img{filter:none;opacity:1}.hero-wall .film-strip{opacity:.7}
+.secondary-button{backdrop-filter:none;-webkit-backdrop-filter:none;background:#2a2b26cc}
+/* Seletor de idioma PT/EN. */
+.lang-toggle{background:none;border:1px solid #ffffff55;border-radius:5px;padding:9px 12px;font-size:12px;font-weight:700;letter-spacing:1px;color:#eee}
+.lang-toggle:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:600px){.lang-toggle{padding:8px 10px;font-size:11px}}
 .video-panel{position:relative}#playback-status{position:absolute;left:16px;right:16px;bottom:58px;margin:0;padding:9px 12px;background:#000c;border-radius:5px;font-size:12px;color:#eee;pointer-events:none;text-align:center}#playback-status:empty{display:none}
 @media(max-width:600px){.hero-wall{inset:-160px -100px;gap:10px}.film-strip-group{gap:10px;padding-right:10px}.hero-wall .film-strip img{width:190px;height:330px}.film-strip{animation-duration:100s}.film-strip:nth-child(2){animation-duration:115s}}
 @media(prefers-reduced-motion:reduce){.film-strip{animation:none;will-change:auto}}
